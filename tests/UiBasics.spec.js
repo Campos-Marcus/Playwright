@@ -6,7 +6,7 @@ test.only('Browser context Playwright test', async ({ browser }) => {
   const page = await context.newPage();         // create a page inside that context
 
   //How to abort the network calls with playwright - examples
-	//block images from being loaded, so it doesn't impact so much in automation (maybe its not relevant for some cases.)
+  //block images from being loaded, so it doesn't impact so much in automation (maybe its not relevant for some cases.)
   //page.route('**/*.{jpg,png,jpeg}', route => route.abort());
 
   const userName = page.locator('#username');
@@ -23,7 +23,7 @@ test.only('Browser context Playwright test', async ({ browser }) => {
 
   //change the credentials, to make ti fail (that was the inicial assertion)
   await page.locator('#username').fill('rahulshettyacademy');
-  
+
   await page.locator("[type='password']").fill("learning");
   await page.locator("#signInBtn").click();
 
@@ -46,7 +46,7 @@ test.only('Browser context Playwright test', async ({ browser }) => {
 
 test('Page playwright test', async ({ page }) => {
   await page.goto("https://www.google.com");
-  console.log (await page.title);
+  console.log(await page.title);
 
 
   await expect(page).toHaveTitle('Google')

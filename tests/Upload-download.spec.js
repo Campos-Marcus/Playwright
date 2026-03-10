@@ -1,5 +1,5 @@
 const ExcelJs = require('exceljs');
-const {test, expect} = require('@playwright/test');
+const { test, expect } = require('@playwright/test');
 
 async function excelTest(searchText, replaceText, change, filePath) {
 
@@ -8,7 +8,7 @@ async function excelTest(searchText, replaceText, change, filePath) {
     const workSheet = workbook.getWorksheet(workbook.worksheets[0].name);
     const output = await readExcel(workSheet, searchText);
 
-    const cell = workSheet.getCell(output.row, output.column+change.colChange);
+    const cell = workSheet.getCell(output.row, output.column + change.colChange);
     cell.value = replaceText;
 
     await workbook.xlsx.writeFile(filePath);
@@ -23,8 +23,8 @@ async function excelTest(searchText, replaceText, change, filePath) {
 }
 
 
-async function readExcel(workSheet, searchText){
-    let output = {row:-1, column:-1};
+async function readExcel(workSheet, searchText) {
+    let output = { row: -1, column: -1 };
     workSheet.eachRow((row, rowNumber) => {
         row.eachCell((cell, colNumber) => {
             if (cell.value === searchText) {
@@ -37,12 +37,10 @@ async function readExcel(workSheet, searchText){
     return output;
 }
 
-/
 
-
-test("Upload download excel validation",async ({page})=>{
+test("Upload download excel validation", async ({ page }) => {
     await page.goto("https://rahulshettyacademy.com/upload-download-test/index.html");
-    await page.getByRole('button', {name:'Download'}).click();
+    await page.getByRole('button', { name: 'Download' }).click();
 
     writeExcel
 })

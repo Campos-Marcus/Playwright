@@ -1,35 +1,33 @@
 const { test, expect } = require('@playwright/test');
 
+const { POManager } = require('../PageObjects/POManager');
+
+
 test.only('Browser context Playwright test', async ({ page }) => {
 
+    const poManager = new POManager(page);
+
     const email = "anshika@gmail.com";
-    const productName = 'Fav Gucci';
+    const password = "Iamking@000";
+    const productName = 'ZARA COAT 3';
     const products = page.locator(".card-body");
-    await page.goto("https://rahulshettyacademy.com/client");
-    await page.locator("#userEmail").fill(email);
-    await page.locator("#userPassword").fill("Iamking@000");
-    await page.locator("[value='Login']").click();
+
+    const loginPage = poManager.getLoginPage();
+    await loginPage.goTo();
+    await loginPage.validLogin(email, password);
+
+    const dashboardPage = poManager.getDashboardPage();
+    await dashboardPage.searchProductAddCart(productName);
+    await dashboardPage.navigateToCart();
+
+
+
     await page.waitForLoadState('networkidle');
     await page.locator(".card-body b").first().waitFor();
 
-    //await page.waitForLoadState('networkidle');
-    // await page.locator(".card-body b").first();waitFor();
 
     const titles = await page.locator(".card-body b").allTextContents();
     console.log(titles);
-
-
-    const count = await products.count();
-
-    for (let i = 0; i< count;i++){
-        if (await products.nth(i).locator("b").textContent() == productName){
-            //add to cart
-            await products.nth(i).locator("text= Add To Cart").click();
-            break;
-        }
-    }
-
-    await page.locator("[routerlink*='car']").click();
 
     await page.locator("div li").first().waitFor();
 
@@ -41,19 +39,19 @@ test.only('Browser context Playwright test', async ({ page }) => {
 
     //select country in the dropdown
 
-    await page.locator("[placeholder*='Country']").pressSequentially("ind", {delay:150});
-    
+    await CheckoutPage.TypeCountry();
+
     const dropdown = page.locator(".ta-results");
-    
+
     await dropdown.waitFor();
 
     const optionsCount = await dropdown.locator("button").count();
 
-    for (let i = 0; i< optionsCount; i++){
-         const text = await dropdown.locator("button").nth(i).textContent();
-         if(text === " India"){
+    for (let i = 0; i < optionsCount; i++) {
+        const text = await dropdown.locator("button").nth(i).textContent();
+        if (text === " India") {
             //or text.includes("India")
-            
+
             await dropdown.locator("button").nth(i).click();
             break;
         }
@@ -70,7 +68,7 @@ test.only('Browser context Playwright test', async ({ page }) => {
 
     await expect(page.locator(".hero-primary")).toHaveText(" Thankyou for the order. ");
     //to get content from a locator..
-    const orderId =await page.locator(".em-spacer-1 .ng-star-inserted").textContent();
+    const orderId = await page.locator(".em-spacer-1 .ng-star-inserted").textContent();
 
     console.log(orderId);
 
@@ -84,9 +82,9 @@ test.only('Browser context Playwright test', async ({ page }) => {
 
     //TODO, iterate the table to find the orderId
 
-    for (let i = 0; i< elements; i++){
+    for (let i = 0; i < elements; i++) {
         const currentTableOrderId = await table.nth(i).locator("th").textContent();
-        if(orderId.includes(currentTableOrderId)){
+        if (orderId.includes(currentTableOrderId)) {
             //click the view button in this row, cause' it's the only one that'll be visible 
             await table.nth(i).locator("button").first().click();
             break;
