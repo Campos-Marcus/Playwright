@@ -20,83 +20,23 @@ test.only('Browser context Playwright test', async ({ page }) => {
     await dashboardPage.searchProductAddCart(productName);
     await dashboardPage.navigateToCart();
 
+    const cartPage = poManager.getCartPage();
+    await cartPage.VerifyProductIsDisplayed(productName);
+    await cartPage.Checkout();
 
 
-    await page.waitForLoadState('networkidle');
-    await page.locator(".card-body b").first().waitFor();
+    const ordersReviewPage = poManager.getOrdersReviewPage();
+    await ordersReviewPage.searchCountryAndSelect("ind", "India");
 
+    const orderId = await ordersReviewPage.SubmitAndGetOrderId();
 
-    const titles = await page.locator(".card-body b").allTextContents();
-    console.log(titles);
+    console.log(orderId)
 
-    await page.locator("div li").first().waitFor();
+    await dashboardPage.navigateToOrders();
 
-    const bool = await page.locator("h3:has-text('Zara Coat 4')").isVisible();
-    expect(bool).toBeTruthy;
-
-    await page.locator("text=Checkout").click()
-    //add card information
-
-    //select country in the dropdown
-
-    await CheckoutPage.TypeCountry();
-
-    const dropdown = page.locator(".ta-results");
-
-    await dropdown.waitFor();
-
-    const optionsCount = await dropdown.locator("button").count();
-
-    for (let i = 0; i < optionsCount; i++) {
-        const text = await dropdown.locator("button").nth(i).textContent();
-        if (text === " India") {
-            //or text.includes("India")
-
-            await dropdown.locator("button").nth(i).click();
-            break;
-        }
-    }
-
-    await page.locator('div:has-text("Name on Card") + input').fill("John Doe");
-
-    await page.locator('div:has-text("CVV Code ?") + input').fill("123");
-    'th+'
-
-    expect(page.locator(".user__name [type='text']").first()).toHaveText(email);
-
-    await page.locator("a[class='btnn action__submit ng-star-inserted']").click();
-
-    await expect(page.locator(".hero-primary")).toHaveText(" Thankyou for the order. ");
-    //to get content from a locator..
-    const orderId = await page.locator(".em-spacer-1 .ng-star-inserted").textContent();
-
-    console.log(orderId);
-
-    await page.locator("button[routerlink='/dashboard/myorders']").click();
-
-    await page.locator("tbody").waitFor();
-
-    const table = page.locator("tbody tr");
-
-    const elements = await table.count();
-
-    //TODO, iterate the table to find the orderId
-
-    for (let i = 0; i < elements; i++) {
-        const currentTableOrderId = await table.nth(i).locator("th").textContent();
-        if (orderId.includes(currentTableOrderId)) {
-            //click the view button in this row, cause' it's the only one that'll be visible 
-            await table.nth(i).locator("button").first().click();
-            break;
-        }
-    }
-
-    const orderIdDetails = await page.locator(".col-text").textContent();
-
-    expect(orderId.includes(orderIdDetails)).toBeTruthy();
-
-    await page.pause();
-
+    const ordersHistoryPage = poManager.getOrdersHistoryPage();
+    await ordersHistoryPage.searchOrderAndSelect(orderId);
+    expect(orderId.includes(await ordersHistoryPage.getOrderId())).toBeTruthy();
 
 });
 

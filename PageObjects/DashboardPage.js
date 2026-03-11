@@ -4,7 +4,7 @@ class DashboardPage {
         this.products = page.locator(".card-body");
         this.productsText = page.locator(".card-body b");
         this.cart = page.locator("[routerlink*='car']");
-
+        this.orders = page.locator("button[routerlink*='myorders']");
     }
 
     async searchProductAddCart(productName) {
@@ -21,8 +21,12 @@ class DashboardPage {
         }
     }
 
-    async navigateToCart(){
+    async navigateToCart() {
         await this.cart.click();
+    }
+
+    async navigateToOrders() {
+        await this.orders.click();
     }
 }
 
