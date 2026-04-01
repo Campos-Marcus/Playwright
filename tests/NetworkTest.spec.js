@@ -18,7 +18,7 @@ test('Place the order', async ({page}) => {
     page.addInitScript(value => {        
         window.localStorage.setItem('token', value);
     }, response.token);
-  
+  //test123
     await page.goto("https://rahulshettyacademy.com/client");
 
 await page.route("https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*",

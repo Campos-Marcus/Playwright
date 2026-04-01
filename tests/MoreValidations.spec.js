@@ -33,3 +33,22 @@ test("Popup validations", async({page}) =>{
     console.log(textCheck.split(" ")[1]);
 
 })
+
+
+test("Screenshot & Visual comparison", async ({page})=>{
+
+        //screenshots!
+    await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
+    await expect(page.locator('#confirmbtn')).toBeVisible();
+    await page.locator('#confirmbtn').screenshot({path:'patialScreenshot.png'});
+    await page.addLocatorHandler("#hide-textbox").click();
+    await page.screenshot({path: 'screenshot.png'});
+    await expect(page.locator("#displayed-text")).toBeHidden();
+});
+
+
+test.only("visual testing", async ({page})=>{
+    await page.goto("https://flightware.com/");
+
+    expect(await page.screenshot()).toMatchSnapshot('landing.png');
+});
