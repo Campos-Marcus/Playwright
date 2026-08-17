@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-test.only('Browser context Playwright test', async ({ browser }) => {
+test('Browser context Playwright test', async ({ browser }) => {
 
   const context = await browser.newContext();   // you get a browser instance
   const page = await context.newPage();         // create a page inside that context
@@ -24,7 +24,7 @@ test.only('Browser context Playwright test', async ({ browser }) => {
   //change the credentials, to make ti fail (that was the inicial assertion)
   await page.locator('#username').fill('rahulshettyacademy');
 
-  await page.locator("[type='password']").fill("learning");
+  await page.locator("[type='password']").fill("Learning@830$3mK2");
   await page.locator("#signInBtn").click();
 
   console.log(await page.locator("[style*='block']").textContent());
@@ -44,9 +44,9 @@ test.only('Browser context Playwright test', async ({ browser }) => {
   console.log(allTitles)
 });
 
-test('Page playwright test', async ({ page }) => {
+test.only('Page playwright test', async ({ page }) => {
   await page.goto("https://www.google.com");
-  console.log(await page.title);
+  console.log(await page.title());
 
 
   await expect(page).toHaveTitle('Google')
