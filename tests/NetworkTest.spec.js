@@ -1,6 +1,6 @@
 const {test, expect, request} = require('@playwright/test');
 //const {APiUtils} = require('./*Pathoffile/APiUtils');
-const {APiUtils} = require('./utils/APiUtils');
+const {APiUtils} = require('../utils/APiUtils');
 const loginPayLoad = { userEmail: "mike.testman@mailinator.com", userPassword: "Team123!" };
 const orderPayLoad = { "orders": [{ country: "Cuba", productOrderedId: "68a961459320a140fe1ca57a" }]};
  const fakePayLoadOrders = { data: [], message: "No Orders" };
@@ -38,6 +38,5 @@ await page.route("https://rahulshettyacademy.com/api/ecom/order/get-orders-for-c
   await page.waitForResponse("https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*")
  
   console.log(await page.locator(".mt-4").textContent());
-    
-
+  
 });
