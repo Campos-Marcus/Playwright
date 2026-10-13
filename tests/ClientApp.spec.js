@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const { customTest } = require('../utils/test-base');
 
 const { POManager } = require('../PageObjects/POManager');
 
@@ -6,7 +7,7 @@ const { POManager } = require('../PageObjects/POManager');
 const dataset = JSON.parse(JSON.stringify(require("..//utils/placeholderTestData.json")));
 
 for (const data of dataset) {
-    test.only(`Client App login ${data.productName}`, async ({ page }) => {
+    test(`Client App login ${data.productName}`, async ({ page }) => {
 
         const poManager = new POManager(page);
 
@@ -16,14 +17,15 @@ for (const data of dataset) {
         await loginPage.goTo();
         await loginPage.validLogin(data.username, data.password);
 
+
         const dashboardPage = poManager.getDashboardPage();
         await dashboardPage.searchProductAddCart(data.productName);
+
         await dashboardPage.navigateToCart();
 
         const cartPage = poManager.getCartPage();
         await cartPage.VerifyProductIsDisplayed(data.productName);
         await cartPage.Checkout();
-
 
         const ordersReviewPage = poManager.getOrdersReviewPage();
         await ordersReviewPage.searchCountryAndSelect("ind", "India");
@@ -40,6 +42,29 @@ for (const data of dataset) {
 
     });
 }
+
+            //93
+        customTest.only('Client App checkout using order fixture', async ({ page, testDataForOrder }) => {
+
+        const poManager = new POManager(page);
+
+        const products = page.locator(".card-body");
+
+        const loginPage = poManager.getLoginPage();
+        await loginPage.goTo();
+        await loginPage.validLogin(testDataForOrder.username, testDataForOrder.password);
+
+
+        const dashboardPage = poManager.getDashboardPage();
+        await dashboardPage.searchProductAddCart(testDataForOrder.productName);
+
+        await dashboardPage.navigateToCart();
+
+        const cartPage = poManager.getCartPage();
+        await cartPage.VerifyProductIsDisplayed(testDataForOrder.productName);
+        await cartPage.Checkout();
+
+        });
 
 
 

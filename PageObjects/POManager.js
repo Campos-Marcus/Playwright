@@ -19,7 +19,6 @@ class POManager {
         return this.loginPage;
     }
 
-
     getDashboardPage() {
         return this.dashboardPage;
     }
