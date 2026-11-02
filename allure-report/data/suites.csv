@@ -1,0 +1,2 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","15054","@web Client App checkout using order fixture","","2026-10-28","broken","2026-10-28","","ClientApp.spec.js","",""

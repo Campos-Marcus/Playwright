@@ -16,7 +16,7 @@ test.beforeAll(async ({ browser }) => {
     await page.waitForLoadState('networkidle');
 })
 
-test.only('Browser context Playwright test', async ({ page }) => {
+test.only('@API Browser context Playwright test', async ({ page }) => {
 
 
     await page.locator(".card-body b").first().waitFor();

@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
  
 
-test('@Webst Client App login', async ({ page }) => {
+test('@Webs  Client App login', async ({ page }) => {
    //js file- Login js, DashboardPage
    const email = "anshika@gmail.com";
    const productName = 'ZARA COAT 3';

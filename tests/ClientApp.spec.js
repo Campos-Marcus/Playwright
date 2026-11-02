@@ -41,10 +41,10 @@ for (const data of dataset) {
         expect(orderId.includes(await ordersHistoryPage.getOrderId())).toBeTruthy();
 
     });
-}
+}   
 
             //93
-        customTest.only('Client App checkout using order fixture', async ({ page, testDataForOrder }) => {
+        customTest.only('@web Client App checkout using order fixture', async ({ page, testDataForOrder }) => {
 
         const poManager = new POManager(page);
 

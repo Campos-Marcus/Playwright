@@ -15,7 +15,13 @@ class LoginPage {
         await this.userName.type(username);
         await this.password.type(password);
         await this.signInbutton.click();
-        await this.page.waitForLoadState('networkidle');
+        const loginError = this.page.getByText('Incorrect email or password.', { exact: false });
+        const firstProduct = this.page.locator('.card-body').first();
+        await firstProduct.or(loginError).first().waitFor({ state: 'visible' });
+        if (await loginError.isVisible()) {
+            throw new Error('Login failed: Incorrect email or password. Update the credentials supplied to this scenario.');
+        }
+        await firstProduct.waitFor({ state: 'visible' });
     }
 }
 

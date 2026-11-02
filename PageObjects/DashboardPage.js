@@ -8,17 +8,18 @@ class DashboardPage {
     }
 
     async searchProductAddCart(productName) {
-        const titles = this.productsText.allTextContents();
-        //console.log(titles);
+        await this.productsText.first().waitFor({ state: 'visible' });
         const count = await this.products.count();
 
         for (let i = 0; i < count; i++) {
-            if (await this.products.nth(i).locator("b").textContent() == productName) {
+            const title = await this.products.nth(i).locator("b").textContent();
+            if (title.trim().toLowerCase() === productName.trim().toLowerCase()) {
                 //add to cart
                 await this.products.nth(i).locator("text= Add To Cart").click();
-                break;
+                return;
             }
         }
+        throw new Error(`Product not found: ${productName}`);
     }
 
     async navigateToCart() {
